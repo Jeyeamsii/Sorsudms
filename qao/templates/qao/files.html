@@ -1,0 +1,374 @@
+{% extends 'qao/base.html' %}
+
+{% block content %}
+
+<main class="col ps-md-2 pt-2 mt-2">
+  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+    class="border rounded-3 p-1 text-decoration-none">
+    <i class="bi bi-list bi-lg py-2 p-1"></i>
+  </a>
+  <div class="page-header pt-3">
+    <h2>Files</h2>
+  </div>
+  <hr class="me-3">
+
+  <div class="container mt-4 ">
+    <div class="wrap mb-3">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-outline-primary active" onclick="showContent('cict', this)">CICT Department</button>
+            <button class="btn btn-outline-primary" onclick="showContent('cbme', this)">CBME Department</button>
+
+        </div>
+    </div>
+</div>
+
+<form method="GET" action="">
+  <div class="row align-items-center">
+    <div class="col-md-8 col-12">
+      <div class="form-group">
+        <input type="text" name="search" id="search-bar" class="form-control responsive-placeholder" placeholder="Search Documents" value="{{ query }}">
+      </div>
+    </div>
+
+    <div class="col-md-4 col-12 d-flex justify-content-md-end justify-content-start mt-2 mt-md-0">
+      <button type="submit" class="btn btn-primary me-2">Search</button>
+      <button type="button" class="btn btn-secondary me-2" onclick="clearSearch()">Clear</button>
+    </div>
+  </div>
+</form>
+
+ <div class="content-container mt-3 me-3"> <!-- Added this div -->
+      <!-- CICT Files Section -->
+    <div class="content-item" id="cict">
+    <div class="row">
+      <div class="col-12">
+         <table class="table table-striped sortable-table" style="height: 420px; overflow-y: scroll; border: 1px solid #ccc;">
+              <thead>
+                <tr>
+                  <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Document Name</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="document_name" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="document_name" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Document Type</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="document_type" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="document_type" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                   <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Academic Year</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="document_type" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="document_type" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                   <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Semester</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="document_type" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="document_type" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Submitted by</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="submitted_by" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="submitted_by" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Date Submitted</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="date_submitted" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="date_submitted" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Program</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="program" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="program" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+                 <tbody>
+                    {% for document in cict_documents %}
+                    <tr>
+                      <td data-field="document_name">{{ document.document_name }}</td>
+                      <td data-field="document_type">{{ document.document_type }}</td>
+                      <td data-field="academic_year">{{ document.submission_bin.academic_year }}</td>
+                      <td data-field="semester">{{ document.submission_bin.semester }}</td>
+                      <td data-field="submitted_by">{{ document.submitted_by }}</td>
+                      <td data-field="date_submitted">{{ document.date_submitted }}</td>
+                      <td data-field="program">{{ document.program }}</td>
+                      <td>
+                        <a href="{% url 'document-viewer' document.id %}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
+                        <a href="{% url 'download-document' document.id %}" class="btn btn-warning btn-sm me-2" target="_blank">Download</a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                 </tbody>
+      </table>
+      </div>
+    </div>
+    </div>
+
+
+
+     <!-- CBME Files Section -->
+     <div class="content-item" id="cbme">
+      <div class="row">
+        <div class="col-12">
+          <table class="table table-striped" style="height: 420px; overflow-y: scroll; border: 1px solid #ccc;">
+              <thead>
+                <tr>
+                  <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Document Name</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="document_name" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="document_name" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Document Type</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="document_type" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="document_type" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Academic Year</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="document_type" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="document_type" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Semester</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="document_type" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="document_type" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Submitted by</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="submitted_by" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="submitted_by" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Date Submitted</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="date_submitted" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="date_submitted" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>Program</span>
+                      <span>
+                        <a href="#" class="sort" data-sort="program" data-order="asc">
+                          <i class="bx bx-up-arrow-alt"></i>
+                        </a>
+                        <a href="#" class="sort" data-sort="program" data-order="desc">
+                          <i class="bx bx-down-arrow-alt"></i>
+                        </a>
+                      </span>
+                    </div>
+                  </th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for document in cbme_documents %}
+                <tr>
+                  <td data-field="document_name">{{ document.document_name }}</td>
+                  <td data-field="document_type">{{ document.document_type }}</td>
+                  <td data-field="academic_year">{{ document.submission_bin.academic_year }}</td>
+                  <td data-field="semester">{{ document.submission_bin.semester }}</td>
+                  <td data-field="submitted_by">{{ document.submitted_by }}</td>
+                  <td data-field="date_submitted">{{ document.date_submitted }}</td>
+                  <td data-field="program">{{ document.program }}</td>
+                  <td>
+                    <a href="{% url 'document-viewer' document.id %}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
+                    <a href="{% url 'download-document' document.id %}" class="btn btn-warning btn-sm me-2" target="_blank">Download</a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+
+        </div>
+      </div>
+      </div>
+
+
+  </div> <!-- End of content-container -->
+</main>
+
+
+<script>
+  function showContent(contentId, button) {
+    // Hide all content items
+    const contentItems = document.querySelectorAll('.content-item');
+    contentItems.forEach(item => {
+        item.style.display = 'none';
+    });
+
+    // Show the selected content item
+    const selectedContent = document.getElementById(contentId);
+    if (selectedContent) {
+        selectedContent.style.display = 'block';
+    }
+
+    // Remove active class from all buttons
+    const buttons = document.querySelectorAll('.btn-group button');
+    buttons.forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    // Add active class to the clicked button
+    button.classList.add('active');
+  }
+
+  // Show the default content on page load
+  window.onload = function() {
+    showContent('cict', document.querySelector('.btn-outline-primary'));
+  };
+  </script>
+
+
+<!--script to clear the search input field-->
+<script>
+  function clearSearch() {
+      document.getElementsByName('search')[0].value = '';
+      document.forms[0].submit();
+  }
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Attach sorting functionality to all tables with the class 'sortable-table'
+    document.querySelectorAll('.sortable-table').forEach((table) => {
+        table.addEventListener('click', function (e) {
+            if (e.target.closest('.sort')) {
+                e.preventDefault();
+                const sortLink = e.target.closest('.sort');
+                const field = sortLink.getAttribute('data-sort'); // Column to sort by
+                const order = sortLink.getAttribute('data-order'); // Current order
+                const tbody = table.querySelector('tbody'); // Table body
+                const rows = Array.from(tbody.querySelectorAll('tr')); // Rows
+
+                // Toggle order and update attribute
+                const newOrder = order === 'asc' ? 'desc' : 'asc';
+                sortLink.setAttribute('data-order', newOrder);
+
+                // Sort rows based on field and order
+                rows.sort((a, b) => {
+                    const cellA = a.querySelector(`[data-field="${field}"]`).textContent.trim();
+                    const cellB = b.querySelector(`[data-field="${field}"]`).textContent.trim();
+
+                    if (!isNaN(cellA) && !isNaN(cellB)) {
+                        return order === 'asc' ? cellA - cellB : cellB - cellA;
+                    } else {
+                        return order === 'asc'
+                            ? cellA.localeCompare(cellB)
+                            : cellB.localeCompare(cellA);
+                    }
+                });
+
+                // Append sorted rows back to the tbody
+                rows.forEach((row) => tbody.appendChild(row));
+            }
+        });
+    });
+});
+
+</script>
+
+{% endblock %}

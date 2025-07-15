@@ -1,0 +1,33 @@
+html, body {
+  height: 100%; /* Ensure full height */
+  margin: 0; /* Remove default margin */
+  overflow: hidden; /* Prevent scrolling */
+}
+
+.custom-primary {
+  background-color: maroon;
+}
+
+main {
+  margin-left: 10px; /* adjust the value to your liking */
+}
+
+#sidebar-nav li a {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#sidebar-nav li a:hover {
+  background-color: #6296cd;
+  color: #ffffff;
+}
+
+.content-container {
+  height: 490px; /* Set a fixed height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 15px; /* Optional: Add some padding */
+  border: 1px solid #ccc; /* Optional: Add a border */
+  border-radius: 5px; /* Optional: Add rounded corners */
+  background-color: #dcdcdc; /* Optional: Set a background color */
+}
+
+

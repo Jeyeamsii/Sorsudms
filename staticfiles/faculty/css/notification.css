@@ -1,0 +1,16 @@
+.notification{
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+.notification.unread{
+  background-color: #f0f8ff;
+  font-weight: bold;
+}
+
+.notification.read{
+  background-color: #c9c8c8;
+}
+li{
+  list-style-type: none;
+}

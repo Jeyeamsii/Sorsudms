@@ -1,0 +1,46 @@
+
+<form method="POST" action="edit-submission-bin/{{bin.id}}/"   id="editSubmissionBinForm"  class="m-3">
+  {% csrf_token %}
+  <div class="fields">
+  <div class="d-flex justify-content-between">
+    <div>
+      <b>Academic Year:<span class="text-danger">*</span></b>
+        {{ form.academic_year }}
+        {% for error in form.academic_year.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div>
+      <b>Semester:<span class="text-danger">*</span></b>
+        {{ form.semester }}
+        {% for error in form.semester.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+  </div>
+
+  <div>
+    <b>Category:<span class="text-danger">*</span></b>
+        {{ form.category }}
+
+  </div>
+
+  <div>
+    <b>Deadline:<span class="text-danger">*</span></b>
+        {{ form.deadline }}
+        {% for error in form.deadline.errors %}
+        <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+  </div>
+
+
+  <div class="modal-footer">
+    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal" id="closeButton">Close</button>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  </div>
+
+</div>
+</form>
+
+
+

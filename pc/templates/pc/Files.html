@@ -1,0 +1,274 @@
+{% extends 'pc/base.html' %}
+
+{% block content %}
+<main class="col ps-md-2 pt-2 mt-2">
+  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+    class="border rounded-3 p-1 text-decoration-none">
+    <i class="bi bi-list bi-lg py-2 p-1"></i>
+  </a>
+  <div class="page-header pt-3">
+    <h2>Files</h2>
+  </div>
+  <hr class="me-3">
+  <div class="container mt-4">
+    <div class="wrap mb-3">
+        <div class="btn-group" role="group" aria-label="Basic example">
+
+            <button class="btn btn-outline-primary active" onclick="showContent('approval', this)">Approved</button>
+            <button class="btn btn-outline-primary" onclick="showContent('declined'), this">Declined</button>
+        </div>
+    </div>
+</div>
+
+
+<form method="GET" action="" class="d-flex">
+  <div class="row align-items-center">
+    <div class="col-md-8 col-12">
+      <div class="form-group me-3">
+        <input type="text" name="search" id="search-bar" class="form-control responsive-placeholder" placeholder="Search Documents" value="{{ query }}" style="width:500px">
+      </div>
+    </div>
+
+    <div class="col-md-4 col-12 d-flex justify-content-md-end justify-content-start mt-2 mt-md-0">
+      <button type="submit" class="btn btn-primary me-2">Search</button>
+      <button type="button" class="btn btn-secondary me-2" onclick="clearSearch()">Clear</button>
+    </div>
+  </div>
+</form>
+
+<br/>
+
+
+
+ <div class="content-container me-3" style="height: 420px; overflow-y: scroll; border: 1px solid #ccc;">
+  <div class="row">
+    <div class="col-12">
+
+      <!-- Approved Files Section -->
+      <div class="content-item" id="approval">
+        <table class="table table-bordered table-striped" >
+          <thead>
+            <tr>
+              <th>
+                <div class="d-flex align-items-center justify-content-between">
+                  <span>Creator</span>
+                  <span>
+                    <a href="#" class="sort" data-sort="submitted_by" data-order="asc">
+                      <i class="bx bx-up-arrow-alt"></i>
+                    </a>
+                    <a href="#" class="sort" data-sort="submitted_by" data-order="desc">
+                      <i class="bx bx-down-arrow-alt"></i>
+                    </a>
+                  </span>
+                </div>
+              </th>
+              <th>
+                <div class="d-flex align-items-center justify-content-between">
+                  <span>Document Name</span>
+                  <span>
+                    <a href="#" class="sort" data-sort="document_name" data-order="asc">
+                      <i class="bx bx-up-arrow-alt"></i>
+                    </a>
+                    <a href="#" class="sort" data-sort="document_name" data-order="desc">
+                      <i class="bx bx-down-arrow-alt"></i>
+                    </a>
+                  </span>
+                </div>
+              </th>
+              <th>
+                <div class="d-flex align-items-center justify-content-between">
+                  <span>Document Type</span>
+                  <span>
+                    <a href="#" class="sort" data-sort="document_type" data-order="asc">
+                      <i class="bx bx-up-arrow-alt"></i>
+                    </a>
+                    <a href="#" class="sort" data-sort="document_type" data-order="desc">
+                      <i class="bx bx-down-arrow-alt"></i>
+                    </a>
+                  </span>
+                </div>
+              </th>
+              <th>
+                <div class="d-flex align-items-center justify-content-between">
+                  <span>Academic Year</span>
+                  <span>
+                    <a href="#" class="sort" data-sort="academic_year" data-order="asc">
+                      <i class="bx bx-up-arrow-alt"></i>
+                    </a>
+                    <a href="#" class="sort" data-sort="academic_year" data-order="desc">
+                      <i class="bx bx-down-arrow-alt"></i>
+                    </a>
+                  </span>
+                </div>
+              </th>
+              <th>
+                <div class="d-flex align-items-center justify-content-between">
+                  <span>Semester</span>
+                  <span>
+                    <a href="#" class="sort" data-sort="semester" data-order="asc">
+                      <i class="bx bx-up-arrow-alt"></i>
+                    </a>
+                    <a href="#" class="sort" data-sort="semester" data-order="desc">
+                      <i class="bx bx-down-arrow-alt"></i>
+                    </a>
+                  </span>
+                </div>
+              </th>
+              <th>
+                <div class="d-flex align-items-center justify-content-between">
+                  <span>Date Submitted</span>
+                  <span>
+                    <a href="#" class="sort" data-sort="date_submitted" data-order="asc">
+                      <i class="bx bx-up-arrow-alt"></i>
+                    </a>
+                    <a href="#" class="sort" data-sort="date_submitted" data-order="desc">
+                      <i class="bx bx-down-arrow-alt"></i>
+                    </a>
+                  </span>
+                </div>
+              </th>
+
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="approved-files">
+            {% for document in approved_files %}
+            <tr>
+              <td>{{ document.submitted_by }}</td>
+              <td>{{ document.document_name }}</td>
+              <td>{{ document.document_type }}</td>
+              <td>{{ document.submission_bin.academic_year }}</td>
+              <td>{{ document.submission_bin.semester }}</td>
+              <td>{{ document.date_submitted }}</td>
+
+              <td>
+                <a href="{% url 'document-viewer' document.id %}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Declined Files Section -->
+      <div id="declined" class="content-item"  style="height: 420px; overflow-y: scroll; border: 1px solid #ccc;">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Creator</th>
+              <th>Document Name</th>
+              <th>Document Type</th>
+              <th>Academic Year</th>
+              <th>Semester</th>
+              <th>Date Submitted</th>
+              <th>Comments</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="declined-files">
+            {% for document in declined_files %}
+            <tr>
+              <td>{{ document.submitted_by }}</td>
+              <td>{{ document.document_name }}</td>
+              <td>{{ document.document_type }}</td>
+              <td>{{ document.submission_bin.academic_year }}</td>
+              <td>{{ document.submission_bin.semester }}</td>
+              <td>{{ document.date_submitted }}</td>
+              <td>{{ document.comment }}</td>
+
+              <td>
+                <a href="{% url 'document-viewer' document.id %}" class="btn btn-primary btn-sm me-2" target="_blank">View</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</main>
+
+
+<script>
+    function clearSearch() {
+    const searchInput = document.querySelector('input[name="search"]');
+    searchInput.value = '';
+    searchInput.closest('form').submit();
+}
+
+</script>
+
+
+<script>
+function showContent(contentId, button) {
+  // Hide all content items
+  const contentItems = document.querySelectorAll('.content-item');
+  contentItems.forEach(item => {
+      item.style.display = 'none';
+  });
+
+  // Show the selected content item
+  const selectedContent = document.getElementById(contentId);
+  if (selectedContent) {
+      selectedContent.style.display = 'block';
+  }
+
+  // Remove active class from all buttons
+  const buttons = document.querySelectorAll('.btn-group button');
+  buttons.forEach(btn => {
+      btn.classList.remove('active');
+  });
+
+  // Add active class to the clicked button
+  button.classList.add('active');
+}
+
+// Show the default content on page load
+window.onload = function() {
+  showContent('approval', document.querySelector('.btn-outline-primary'));
+};
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".sort").forEach(button => {
+    button.addEventListener("click", function (e) {
+      e.preventDefault();
+      const column = this.getAttribute("data-sort");
+      const order = this.getAttribute("data-order");
+      const tableBody = this.closest("table").querySelector("tbody");
+      sortTable(tableBody, column, order);
+    });
+  });
+
+  function sortTable(tbody, column, order) {
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+    rows.sort((rowA, rowB) => {
+      const cellA = rowA.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+      const cellB = rowB.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+
+      if (!isNaN(cellA) && !isNaN(cellB)) {
+        return order === "asc" ? cellA - cellB : cellB - cellA;
+      }
+      if (Date.parse(cellA) && Date.parse(cellB)) {
+        return order === "asc" ? new Date(cellA) - new Date(cellB) : new Date(cellB) - new Date(cellA);
+      }
+      return order === "asc" ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+  }
+
+  function getColumnIndex(column) {
+    const columns = ["submitted_by", "document_name", "document_type", "academic_year", "semester", "date_submitted"];
+    return columns.indexOf(column) + 1;
+  }
+});
+</script>
+
+
+
+{% endblock %}

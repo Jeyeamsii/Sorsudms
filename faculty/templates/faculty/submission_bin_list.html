@@ -1,0 +1,224 @@
+{% extends 'faculty/base.html' %}
+
+{% block content %}
+<main class="col ps-md-2 pt-2 mt-2">
+  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+    class="border rounded-3 p-1 text-decoration-none">
+    <i class="bi bi-list bi-lg py-2 p-1"></i>
+  </a>
+  <div class="page-header pt-3">
+    <h2>Submission Bins</h2>
+  </div>
+  <!--Display the message after successfull submission of document-->
+{% if messages %}
+<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+
+<form method="GET" action="">
+  <div class="row align-items-center">
+    <div class="col-md-8 col-12">
+      <div class="form-group">
+        <input type="text" name="search" id="search-bar" class="form-control responsive-placeholder" placeholder="Search Documents" value="{{ query }}">
+      </div>
+    </div>
+
+    <div class="col-md-4 col-12 d-flex justify-content-md-end justify-content-start mt-2 mt-md-0">
+      <button type="submit" class="btn btn-primary me-2">Search</button>
+      <button type="button" class="btn btn-secondary me-2" onclick="clearSearch()">Clear</button>
+    </div>
+  </div>
+</form>
+
+
+  <hr class="me-3">
+  <div class="content-container me-3"  style="height: 420px; overflow-y: scroll; border: 1px solid #ccc;"> <!-- Added this div -->
+    <div class="row">
+        <div class="col-12">
+          <table class="table table-striped">
+            <thead>
+    <tr>
+      <th>Academic Year
+        <a href="#" class="sort" data-sort="academic_year" data-order="asc">
+          <i class="bx bx-up-arrow-alt"></i>
+        </a>
+        <a href="#" class="sort" data-sort="academic_year" data-order="desc">
+          <i class="bx bx-down-arrow-alt"></i>
+        </a>
+      </th>
+      <th>Semester
+        <a href="#" class="sort" data-sort="semester" data-order="asc">
+          <i class="bx bx-up-arrow-alt"></i>
+        </a>
+        <a href="#" class="sort" data-sort="semester" data-order="desc">
+          <i class="bx bx-down-arrow-alt"></i>
+        </a>
+      </th>
+      <th>Category
+        <a href="#" class="sort" data-sort="category" data-order="asc">
+          <i class="bx bx-up-arrow-alt"></i>
+        </a>
+        <a href="#" class="sort" data-sort="category" data-order="desc">
+          <i class="bx bx-down-arrow-alt"></i>
+        </a>
+      </th>
+      <th>Date Created
+        <a href="#" class="sort" data-sort="date_created" data-order="asc">
+          <i class="bx bx-up-arrow-alt"></i>
+        </a>
+        <a href="#" class="sort" data-sort="date_created" data-order="desc">
+          <i class="bx bx-down-arrow-alt"></i>
+        </a>
+      </th>
+      <th>Deadline
+        <a href="#" class="sort" data-sort="deadline" data-order="asc">
+          <i class="bx bx-up-arrow-alt"></i>
+        </a>
+        <a href="#" class="sort" data-sort="deadline" data-order="desc">
+          <i class="bx bx-down-arrow-alt"></i>
+        </a>
+      </th>
+      <th>Action</th>
+    </tr>
+  </thead>
+            <tbody>
+    {% for submission_bin in submission_bins %}
+    <tr>
+      <td>{{ submission_bin.academic_year }}</td>
+      <td>{{ submission_bin.semester }}</td>
+      <td>{{ submission_bin.category }}</td>
+      <td>{{ submission_bin.date_created }}</td>
+      <td>{{ submission_bin.deadline }}</td>
+      <td>
+        <button type="button" class="btn btn-primary btn-sm openSubmitDocument" data-submission-bin-id="{{ submission_bin.id }}" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          Submit Document
+        </button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+          </table>
+        </div>
+    </div>
+</div> <!-- End of content-container -->
+
+<!-- Modal for submitting documents -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Submit Document</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        {% include 'faculty/submit_document.html' %}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+<!--Ajax for handling submission bin-->
+<script>
+
+    // Redirect to the main template when the modal is closed
+    document.getElementById('staticBackdrop').addEventListener('hidden.bs.modal', function () {
+    window.location.href = "{% url 'submission-bin-list' %}"; // Replace with the URL you want to redirect to
+    });
+
+    document.querySelectorAll('.openSubmitDocument').forEach(button => { button.addEventListener('click', function() {
+      const submissionBinId = this.getAttribute('data-submission-bin-id'); const url = `{% url 'submit_document' submission_bin_id=0 %}`.replace('0', submissionBinId);
+      fetch(url) .then(response => response.text()) .then(html => { document.getElementById('modalBody').innerHTML = html;
+      new bootstrap.Modal(document.getElementById('staticBackdrop')).show(); }); }); });
+
+      document.addEventListener('submit', function(event) {
+         if (event.target.id === 'submitDocument') {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form); const submissionBinId = form.getAttribute('data-submission-bin-id');
+        const url = `{% url 'submit_document' submission_bin_id=0 %}`.replace('0', submissionBinId);
+        fetch(url, { method: 'POST', body: formData, headers: { 'X-Requested-With': 'XMLHttpRequest' } }).then(response => response.json()).then(data => {
+           if (data.success) {
+            document.getElementById('staticBackdrop').style.display = 'none';
+           location.reload();
+          }
+          else {
+            document.getElementById('modalBody').innerHTML = data.html_form;
+          } }); } });
+
+     </script>
+     <script>
+            document.querySelectorAll('.sort').forEach(button => {
+              button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const column = this.getAttribute('data-sort');
+                const order = this.getAttribute('data-order');
+                console.log(`Sorting column: ${column}, order: ${order}`); // Debug
+                sortTable(column, order);
+              });
+            });
+
+            function sortTable(column, order) {
+              const tableBody = document.querySelector('table tbody');
+              const rows = Array.from(tableBody.querySelectorAll('tr'));
+
+              rows.sort((rowA, rowB) => {
+                const cellA = rowA.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+                const cellB = rowB.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+
+                // Numeric comparison
+                if (!isNaN(cellA) && !isNaN(cellB)) {
+                  return order === 'asc' ? cellA - cellB : cellB - cellA;
+                }
+
+                // Date comparison
+                if (Date.parse(cellA) && Date.parse(cellB)) {
+                  return order === 'asc'
+                    ? new Date(cellA) - new Date(cellB)
+                    : new Date(cellB) - new Date(cellA);
+                }
+
+                // String comparison
+                return order === 'asc'
+                  ? cellA.localeCompare(cellB)
+                  : cellB.localeCompare(cellA);
+              });
+
+              // Re-append sorted rows
+              rows.forEach(row => tableBody.appendChild(row));
+            }
+
+            function getColumnIndex(column) {
+              switch (column) {
+                case 'academic_year': return 1;
+                case 'semester': return 2;
+                case 'category': return 3;
+                case 'date_created': return 4;
+                case 'deadline': return 5;
+                default: return 1;
+              }
+            }
+
+</script>
+
+
+<script>
+    function clearSearch() {
+    const searchInput = document.querySelector('input[name="search"]');
+    searchInput.value = '';
+    searchInput.closest('form').submit();
+}
+
+</script>
+
+{% endblock %}

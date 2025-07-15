@@ -1,0 +1,37 @@
+<form method="POST"    id="uploadDocument"  class="m-3">
+
+
+  {% csrf_token %}
+  <div class="fields">
+  <div>
+    <b>Choose a file:<span class="text-danger">*</span></b>
+        {{ form.file }}
+        {% for error in form.file.errors %}
+        <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+  </div>
+
+  <br>
+  
+
+  <br>
+  <div>
+    <b>Document Name:<span class="text-danger">*</span></b>
+        {{ form.document_name }}
+        {% for error in form.document_name.errors %}
+        <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+  </div>
+  <br>
+
+
+  <div class="modal-footer">
+    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal" id="closeButton">Close</button>
+    <button type="submit" class="btn btn-primary">Upload</button>
+  </div>
+
+</div>
+</form>
+
+
+

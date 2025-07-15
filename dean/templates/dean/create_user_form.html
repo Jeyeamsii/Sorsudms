@@ -1,0 +1,147 @@
+<form method="POST" class="m-3" id="userForm">
+  {% csrf_token %}
+  
+
+  
+  <div class="fields">
+
+    {% if form.non_field_errors %}
+     <div class="alert alert-danger" role="alert"> {% for error in form.non_field_errors %}
+       <div>{{ error }}</div> 
+       {% endfor %} 
+      </div>
+     {% endif %}
+
+    <div class="row mb-3">
+      <div class="col">
+        <b id="Sem">First Name:<span class="text-danger">*</span></b>
+        {{form.first_name }}
+          {% for error in form.first_name.errors %}
+            <div class="text-danger">{{ error }}</div>
+          {% endfor %} 
+      </div>
+      
+  
+      <div class="col">
+        <b id="Sem">Last Name:<span class="text-danger">*</span></b>
+        {{ form.last_name }}
+        {% for error in form.last_name.errors %}
+          <div class="text-danger">{{ error }}</div>
+        {% endfor %} 
+       </div>
+
+      <div class="col">
+        <b id="Sem">Middle Initial:<span class="text-danger">*</span></b>
+        {{ form.middle_initial }} 
+          {% for error in form.middle_initial.errors %}
+          <div class="text-danger">{{ error }}</div>
+        {% endfor %} 
+        </div>
+    </div>
+
+
+    <div class="row mb-3">
+      <div class="col">
+        <b id="Sem">Email Address:<span class="text-danger">*</span></b>
+        {{ form.email }}
+        {% for error in form.email.errors %}
+        <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+      </div>
+      
+  
+      <div class="col">
+        <b id="Sem">Create Username:<span class="text-danger">*</span></b>
+        {{ form.username }}
+        {% for error in form.username.errors %}
+        <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+     </div>
+    </div>
+
+
+    <div class="row mb-3">
+      <div class="col d-flex align-items-center">
+        <b>Address:<span class="text-danger">*</span></b>
+        {{ form.address }}
+        {% for error in form.address.errors %}
+        <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+      </div>
+      
+    </div>
+    
+
+    
+    <div class="row d-flex align-items-center mb-3">
+      <div class="col">
+
+        <b>Select a Program:<span class="text-danger">*</span></b>
+
+        <div class="d-flex justify-content-around">
+          {{ form.program }}
+          {% for error in form.program.errors %}
+          <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+        </div>
+      </div>
+
+      <div class="col ">
+         
+          <b>Birthday:<span class="text-danger">*</span></b>
+          {{ form.birthday }}
+          {% for error in form.birthday.errors %}
+          <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+      
+      </div>
+    </div>
+
+
+
+    <br>
+    <br>
+
+    
+      
+        <div class="d-flex justify-content-around">
+          <b>Role:</b>
+          {{ form.role }}
+      
+          
+          <b>Department:</b>
+          {{ form.department }}
+        </div>
+
+
+    <br>
+    <br>
+
+    <div class="row mb-3">
+      <div class="col">
+        <b>Create Password:<span class="text-danger">*</span></b>
+        {{ form.password1 }}
+        {% for error in form.password1.errors %}
+        <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+
+      </div>
+        
+      <div class="col">
+        <b>Confirm Password:<span class="text-danger">*</span></b>
+        {{ form.password2 }}
+        {% for error in form.password2.errors %}
+        <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+      </div>
+    </div>
+
+  </div>
+  
+
+
+  <div class="modal-footer">
+    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">Create</button>
+  </div>
+</form>

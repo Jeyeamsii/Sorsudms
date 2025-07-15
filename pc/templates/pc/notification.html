@@ -1,0 +1,38 @@
+{% extends 'pc/base.html' %}
+
+{% block content %}
+<main class="col ps-md-2 pt-2 mt-2">
+  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+          class="border rounded-3 p-1 text-decoration-none">
+      <i class="bi bi-list bi-lg py-2 p-1"></i>
+  </a>
+
+  <div class="page-header pt-3">
+    <h2>Notifications</h2>
+  </div>
+  <hr class="me-3">
+
+  <div class="content-container me-3">
+    <div class="row">
+      <div class="col-12">
+        <div class="container">
+          {% for notification in notifications %}
+          <div class="box shadow-sm rounded mb-3  notification {% if not notification.read %}unread{% else %}read{% endif %}">
+            <div class="box-body ">
+              <ul class="d-flex align-items-center gap-3">
+                <i class="notification-icon bx bx-bell"></i>
+                <li class=""> {{ notification.message }} - {{ notification.date_created }}
+                  {% if not notification.read %} <a href="{% url 'mark-as-reads' notification.id %}" class="btn btn-sm btn-primary">Mark as Read</a>
+                   {% endif %}
+                </li>
+
+              </ul>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

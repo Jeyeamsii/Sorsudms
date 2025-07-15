@@ -1,0 +1,210 @@
+html, body {
+  height: 100%; /* Ensure full height */
+  margin: 0; /* Remove default margin */
+  overflow: hidden; /* Prevent scrolling */
+}
+
+.custom-primary {
+  background-color: maroon;
+}
+
+main {
+  margin-left: 20px; /* adjust the value to your liking */
+}
+
+#sidebar-nav li a {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#sidebar-nav li a:hover {
+  background-color: #6296cd;
+  color: #ffffff;
+}
+
+.content-container {
+  height: 490px; /* Set a fixed height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 15px; /* Optional: Add some padding */
+  border: 1px solid #ccc; /* Optional: Add a border */
+  border-radius: 5px; /* Optional: Add rounded corners */
+  background-color: #dcdcdc; /* Optional: Set a background color */
+}
+
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex: 1;
+}
+
+.searchTerm {
+  border-radius: 10px 0 0 10px;
+  border: 3px solid #9fa3a3;
+  border-right: none;
+  padding: 5px;
+  height: 35px;
+  width: 50%;
+}
+
+.searchTerm:focus{
+  color: #9fa3a3;
+}
+
+.searchButton {
+  width: 40px;
+  height: 35px;
+  border: 1px solid #9fa3a3;
+  background: #9fa3a3;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+  margin-left: -20px;
+}
+
+.wrap {
+  display: flex;
+  align-items: center;
+}
+
+.ms-auto {
+  margin-left: auto; /* Push the button to the right side */
+}
+
+.content-container {
+  padding: 20px; /* Add padding around the content */
+}
+
+.table {
+  width: 100%; /* Make the table take full width of the container */
+  border-collapse: collapse; /* Remove space between borders */
+}
+
+.table th, .table td {
+  text-align: left; /* Align text to the left */
+  padding: 10px; /* Add padding for better spacing */
+}
+
+.table th {
+  background-color: #f8f9fa; /* Light background for header */
+  color: #343a40; /* Dark text color for header */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f2f2f2; /* Light gray for odd rows */
+}
+
+.table-bordered {
+  border: 1px solid #dee2e6; /* Border for the table */
+}
+
+.table-bordered th, .table-bordered td {
+  border: 1px solid #dee2e6; /* Border for table cells */
+}
+
+.table-responsive {
+  overflow-x: auto; /* Allow horizontal scrolling on smaller screens */
+}
+
+@media only screen and (max-width: 768px) {
+
+  span {
+    display: none;
+  }
+
+  .name-container.position-absolute {
+    margin-left: 0 !important;
+  }
+
+  .form-control {
+    font-size: 14px;
+    /* Smaller font size for the input */
+    padding: 8px;
+    /* Adjust padding */
+  }
+
+  .btn {
+    width: 100%;
+    /* Make buttons full width */
+    margin-bottom: 5px;
+    /* Add space between buttons */
+  }
+
+  .btn-secondary {
+    margin-bottom: 0;
+    /* Remove margin for the last button */
+  }
+
+  /* Optionally adjust the placeholder style */
+  .form-control::placeholder {
+    font-size: 14px;
+    /* Smaller font size for placeholder */
+  }
+
+  #btn-create-user .btn {
+    padding: 8px 15px; /* Smaller padding */
+    font-size: 14px; /* Smaller font size */
+    width: 100%; /* Make the button full width */
+  }
+
+}
+
+th {
+  text-align: left; /* Align header text to the left */
+  vertical-align: middle; /* Align content vertically */
+}
+
+th span {
+  font-size: 10px; /* Adjust size */
+}
+
+th .d-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Push text and buttons to edges */
+  gap: 15px; /* Add spacing between text and buttons */
+}
+
+th a.sort {
+  color: inherit; /* Use default text color */
+  text-decoration: none;
+  font-size: 10px; /* Adjust size if needed */
+}
+
+th i {
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  font-size: 16px; /* Adjust size */
+}
+
+th a.sort:hover i {
+  color: #007bff; /* Highlight on hover */
+}
+
+@media (max-width: 768px) {
+  th .d-flex {
+    flex-wrap: wrap; /* Allow wrapping */
+    justify-content: space-between;
+  }
+
+  th span {
+    margin-bottom: 4px; /* Space between wrapped elements */
+  }
+}
+
+
+#search-bar::placeholder {
+  font-size: 0.9rem;
+}
+
+form .btn {
+  min-width: 80px; /* Ensures buttons have consistent size */
+}
+
+

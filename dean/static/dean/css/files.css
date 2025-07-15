@@ -1,0 +1,9 @@
+@media only screen and (max-width: 768px) {
+    span{
+      display: none;
+    }
+  
+    .name-container.position-absolute {
+      margin-left: 0 !important;
+    }
+  }

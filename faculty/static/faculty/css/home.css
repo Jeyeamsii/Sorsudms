@@ -1,0 +1,122 @@
+.sorsu-logo-container img{
+    width: 150px;
+    height: 150px;
+}
+
+#hi-user{
+    margin-top: 2%;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(168, 10, 10);
+}
+
+#h-one{
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    margin-top: 2%;
+}
+
+#h-two{
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+}
+
+#h-three{
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+}
+
+#mission{
+    text-align: center;
+}
+
+#mission-content{
+    text-align: center;
+    color: white;
+    font-weight: 500;
+}
+
+.mission-container{
+    background-color: rgb(158, 3, 3);
+    padding-top: 2%;
+    padding-right: 2%;
+    padding-left: 2%;
+    padding-bottom: 2%;
+    margin-left: 13%;
+    margin-right: 13%;
+    border-radius: 15px;
+}
+
+#vision{
+    text-align: center;
+}
+
+#vision-content{
+    text-align: center;
+    color: white;
+    font-weight: 500;
+}
+
+#core-values{
+    text-align: center;
+}
+#cv-content{
+    text-align: center;
+    color: white;
+    font-weight: 500;
+}
+
+#quality-policy{
+    text-align: center;
+}
+
+#qp-content{
+    text-align: center;
+    color: white;
+    font-weight: 500;
+}
+
+body.dark h3{
+    color:var(--primary-color-light)
+}
+
+body.dark .mission-container{
+    background-color: var(--sidebar-color);
+}
+
+body.dark #heart{
+    color: #f6f5ff;
+}
+
+.container1{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+}
+
+.container1 div #img1{
+    height: 250px;
+    width: 250px;
+    margin-left: 15%;
+    margin-top: 5%;
+}
+
+.container1 div #img2{
+    height: 250px;
+    width: 250px;
+    margin-right: 15%;
+    margin-top: 5%;
+}
+
+@media only screen and (max-width: 768px) {
+
+    span {
+      display: none;
+    }
+  
+    .name-container.position-absolute {
+      margin-left: 0 !important;
+    }
+  
+}
+ 

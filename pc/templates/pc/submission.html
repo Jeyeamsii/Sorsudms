@@ -1,0 +1,369 @@
+{% extends 'pc/base.html' %}
+
+{% block content %}
+
+<main class="col ps-md-2 pt-2 mt-2">
+  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+    class="border rounded-3 p-1 text-decoration-none">
+    <i class="bi bi-list bi-lg py-2 p-1"></i>
+  </a>
+  <div class="page-header pt-3">
+    <h2>Submission</h2>
+  </div>
+
+ <!--Display the message after doing an action eg creating user-->
+ {% if messages %}
+ <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+     {% for message in messages %}
+         {{ message }}
+     {% endfor %}
+     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+ </div>
+{% endif %}
+
+<hr class="me-3">
+<div class="d-flex justify-content-between align-items-center">
+
+<form method="GET" action="" class="d-flex">
+  <div class="row align-items-center">
+    <div class="col-md-8 col-12">
+      <div class="form-group me-3">
+        <input type="text" name="search" id="search-bar" class="form-control responsive-placeholder" placeholder="Search Submission" value="{{ query }}" style="width:500px">
+      </div>
+    </div>
+
+    <div class="col-md-4 col-12 d-flex justify-content-md-end justify-content-start mt-2 mt-md-0">
+      <button type="submit" class="btn btn-primary me-2">Search</button>
+      <button type="button" class="btn btn-secondary me-2" onclick="clearSearch()">Clear</button>
+    </div>
+  </div>
+</form>
+
+
+  <div class="wrap mb-3">
+    <!-- Button trigger modal -->
+    <button id="openCreateSubmissionBin" type="button" class="btn ms-auto text-white me-3 mt-2"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color: rgb(0, 180, 204);;">
+      Create Submission Bin
+    </button>
+
+    <!-- Modal for creating a submission bin -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content" >
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Submission Bin</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modalBody">
+            {% include 'pc/create_submission_bin.html' %}
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+  <!-- Modal for editing a submission bin -->
+  <div class="modal fade" id="editBinModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Submission Bin</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="ModalBody">
+        <div id="editSubmissionBinFormContainer">
+          {% include 'pc/edit_submission_bin.html' %}
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+ <div class="content-container me-3" style="height: 420px; overflow-y: scroll; border: 1px solid #ccc;">
+  <div class="row m-3">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>
+            <div class="d-flex align-items-center justify-content-between">
+              <span>Academic Year</span>
+              <span>
+                <a href="#" class="sort" data-sort="academic_year" data-order="asc">
+                  <i class="bx bx-up-arrow-alt"></i>
+                </a>
+                <a href="#" class="sort" data-sort="academic_year" data-order="desc">
+                  <i class="bx bx-down-arrow-alt"></i>
+                </a>
+              </span>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex align-items-center justify-content-between">
+              <span>Semester</span>
+              <span>
+                <a href="#" class="sort" data-sort="semester" data-order="asc">
+                  <i class="bx bx-up-arrow-alt"></i>
+                </a>
+                <a href="#" class="sort" data-sort="semester" data-order="desc">
+                  <i class="bx bx-down-arrow-alt"></i>
+                </a>
+              </span>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex align-items-center justify-content-between">
+              <span>Title</span>
+              <span>
+                <a href="#" class="sort" data-sort="category" data-order="asc">
+                  <i class="bx bx-up-arrow-alt"></i>
+                </a>
+                <a href="#" class="sort" data-sort="category" data-order="desc">
+                  <i class="bx bx-down-arrow-alt"></i>
+                </a>
+              </span>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex align-items-center justify-content-between">
+              <span>Date Created</span>
+              <span>
+                <a href="#" class="sort" data-sort="date_created" data-order="asc">
+                  <i class="bx bx-up-arrow-alt"></i>
+                </a>
+                <a href="#" class="sort" data-sort="date_created" data-order="desc">
+                  <i class="bx bx-down-arrow-alt"></i>
+                </a>
+              </span>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex align-items-center justify-content-between">
+              <span>Deadline</span>
+              <span>
+                <a href="#" class="sort" data-sort="deadline" data-order="asc">
+                  <i class="bx bx-up-arrow-alt"></i>
+                </a>
+                <a href="#" class="sort" data-sort="deadline" data-order="desc">
+                  <i class="bx bx-down-arrow-alt"></i>
+                </a>
+              </span>
+            </div>
+          </th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user_bin in user_bins %}
+        <tr>
+          <td>{{ user_bin.academic_year }}</td>
+          <td>{{ user_bin.semester }}</td>
+          <td>{{ user_bin.category }}</td>
+          <td>{{ user_bin.date_created }}</td>
+          <td>{{ user_bin.deadline }}</td>
+          <td>
+            <a href="{% url 'documents-for-review' user_bin.id %}">
+              <button class="btn btn-warning btn-sm me-2">View pending Documents</button>
+            </a>
+            <br>
+            <button class="btn btn-primary btn-sm mt-1 me-2 edit-bin-btn" data-bs-toggle="modal" data-bs-target="#editBinModal" data-bin-id="{{ user_bin.id }}">Edit Bin</button>
+            <button class="btn btn-danger btn-sm mt-1" onclick="openDeleteModal('{{ user_bin.id }}')">Delete</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div> <!-- End of content-container -->
+
+<!-- deleting submission Modal -->
+<div class="modal fade delete_document" id="staticbackDrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete Submission Bin</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalBody">
+       Are you sure you want to  delete this submission Bin?
+      </div>
+
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal" id="closeButton">Cancel</button>
+
+        <a href="#" id="confirmDeleteButton" class="btn btn-primary">Delete</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</main>
+
+
+<!--include jQuery CDN link to use the AJAX functionality-->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script>
+ document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".sort").forEach(button => {
+    button.addEventListener("click", function (e) {
+      e.preventDefault();
+      const column = this.getAttribute("data-sort");
+      const order = this.getAttribute("data-order");
+      sortTable(column, order);
+    });
+  });
+
+  function sortTable(column, order) {
+    const tableBody = document.querySelector("table tbody");
+    const rows = Array.from(tableBody.querySelectorAll("tr"));
+
+    rows.sort((rowA, rowB) => {
+      const cellA = rowA.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+      const cellB = rowB.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+
+      if (!isNaN(cellA) && !isNaN(cellB)) {
+        return order === "asc" ? cellA - cellB : cellB - cellA;
+      }
+      if (Date.parse(cellA) && Date.parse(cellB)) {
+        return order === "asc" ? new Date(cellA) - new Date(cellB) : new Date(cellB) - new Date(cellA);
+      }
+      return order === "asc" ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+    });
+
+    rows.forEach(row => tableBody.appendChild(row));
+  }
+
+  function getColumnIndex(column) {
+    const columns = ["academic_year", "semester", "category", "date_created", "deadline"];
+    return columns.indexOf(column) + 1;
+  }
+});
+</script>
+
+
+
+<!--Ajax for handling creation of submission bin-->
+<script>
+  document.getElementById("openCreateSubmissionBin").onclick = function(){
+    fetch("{% url 'create_submission_bin' %}").then(response => response.text()).then(html => {
+      document.getElementById('modalBody').innerHTML = html;
+      document.getElementById("staticBackdrop").style.display = "block";
+    });
+  };
+
+  const modal = document.getElementById("staticBackdrop");
+  document.getElementsByClassName("btn-close")[0].onclick = () => modal.style.display = "none";
+  window.onclick = (event) => {
+    if (event.target == modal)
+    modal.style.display = "none";
+  };
+
+  document.addEventListener("submit", function(event){
+    if (event.target.id === "createSubmissionBin"){
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      fetch("{% url 'create_submission_bin' %}", {
+        method: "POST",
+        body: formData,
+        headers:{"X-Requested-With":"XMLHttpRequest"}
+      }).then(response => response.json()).then(data => {
+        if(data.success){
+          modal.style.display = "hide";
+          location.reload();
+        }
+        else{
+          document.getElementById("modalBody").innerHTML = data.html_form;
+        }
+      });
+    }
+  });
+</script>
+
+
+
+<!--ajax for editing bin info-->
+<script>
+  $(document).ready(function() {
+    // Handle the edit button click
+    $('.edit-bin-btn').on('click', function() {
+      var user_bin_id = $(this).data('bin-id');
+      $.ajax({
+        url: '{% url "edit_submission_bin" 0 %}'.replace('0', user_bin_id),
+        type: 'GET',
+        success: function(data) {
+          $('#editSubmissionBinFormContainer').html(data);
+        },
+        error: function(xhr, errmsg, err) {
+          console.error(xhr.status + ": " + xhr.responseText);
+        }
+      });
+    });
+
+
+    // Handle form submission via AJAX
+    $('#editSubmissionBinFormContainer').on('submit', '#editSubmissionBinForm', function(event) {
+      var user_bin_id = $(this).data('bin-id');
+      event.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        success: function(response) {
+          if (response.success) {
+            $('#editBinModal').modal('hide');
+            location.reload();
+          } else {
+            $('#editSubmissionBinFormContainer').html(response.html_form);
+          }
+        },
+        error: function(xhr, errmsg, err) {
+          console.error(xhr.status + ": " + xhr.responseText);
+        }
+      });
+    });
+
+  });
+
+  </script>
+
+
+
+<!--Scripts for deleting submission bin -->
+<script>
+  function openDeleteModal(submission_bin_id){
+
+    //set the href attribute of the confirm button to redirect to the approval view
+    const confirmButton = document.getElementById('confirmDeleteButton');
+    confirmButton.href = `/pc/submission/delete-submission-bin/${submission_bin_id}/`;  //adjust the URL to match your URL pattern
+
+    //show the modal
+    $('.delete_document').modal('show');
+  }
+</script>
+
+<script>
+    function clearSearch() {
+    const searchInput = document.querySelector('input[name="search"]');
+    searchInput.value = '';
+    searchInput.closest('form').submit();
+}
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,408 @@
+{% extends 'dean/base.html' %}
+
+{% block content %}
+
+<main class="col ps-md-2 pt-2 mt-2">
+  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none">
+    <i class="bi bi-list bi-lg py-2 p-1"></i>
+  </a>
+  <!--Display the message after doing an action eg creating user-->
+  {% if messages %}
+  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+
+  <div class="page-header pt-3">
+    <h2>User Account Management</h2>
+  </div>
+  <hr class="me-3">
+  <div class="wrap mb-3">
+    <div class="row d-flex">
+
+      <div class="col d-flex justify-content-md-end">
+        <form method="GET" action="" class="d-flex flex-wrap align-items-center">
+          <div class="row w-100">
+            <div class="col-md-8 col-12 mb-2 mb-md-0">
+              <div class="form-group">
+                <input type="text" name="search" id="search-bar"
+                       class="form-control responsive-placeholder"
+                       placeholder="Search Documents"
+                       value="{{ query }}">
+              </div>
+            </div>
+            <div class="col-md-4 col-12 d-flex justify-content-md-end justify-content-start">
+              <button type="submit" class="btn btn-primary me-2">Search</button>
+              <button type="button" class="btn btn-secondary" onclick="clearSearch()">Clear</button>
+            </div>
+          </div>
+        </form>
+
+
+            <div class="col-md-4 col-12 d-flex justify-content-md-end justify-content-start mt-2 mt-md-0">
+
+              <div class="dropdown open">
+                <a class="btn border-none text-white outline-none dropdown-toggle" type="button" id="triggerId"
+                  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button type="button" class="btn btn-success">Sort</button>
+                </a>
+                <div class="dropdown-menu ms-4" aria-labelledby="triggerId">
+                  <div class="d-flex">
+                    <a class="dropdown-item" href="#">Name
+                      <a href="#" class="sort " data-sort="name" data-order="asc" style="color: black;">
+                        <i class='bx bx-up-arrow-alt me-1 mt-2'></i></a>
+                      <a href="#" class="sort" data-sort="name" data-order="desc" style="color: black;">
+                        <i class='bx bx-down-arrow-alt me-4 mt-2'></i></a>
+                    </a>
+                  </div>
+                  <div class="d-flex">
+                    <a class="dropdown-item" href="#">Username
+                      <a href="#" class="sort " data-sort="username" data-order="asc" style="color: black;">
+                        <i class='bx bx-up-arrow-alt me-1 mt-2'></i></a>
+                      <a href="#" class="sort" data-sort="username" data-order="desc" style="color: black;">
+                        <i class='bx bx-down-arrow-alt me-4 mt-2'></i></a>
+                    </a>
+                  </div>
+                  <div class="d-flex">
+                    <a class="dropdown-item" href="#">Email
+                      <a href="#" class="sort " data-sort="email" data-order="asc" style="color: black;">
+                        <i class='bx bx-up-arrow-alt me-1 mt-2'></i></a>
+                      <a href="#" class="sort" data-sort="email" data-order="desc" style="color: black;">
+                        <i class='bx bx-down-arrow-alt me-4 mt-2'></i></a>
+                    </a>
+                  </div>
+                  <div class="d-flex">
+                    <a class="dropdown-item" href="#">Program
+                      <a href="#" class="sort " data-sort="program" data-order="asc" style="color: black;">
+                        <i class='bx bx-up-arrow-alt me-1 mt-2'></i></a>
+                      <a href="#" class="sort" data-sort="program" data-order="desc" style="color: black;">
+                        <i class='bx bx-down-arrow-alt me-4 mt-2'></i></a>
+                    </a>
+                  </div>
+                  <div class="d-flex">
+                    <a class="dropdown-item" href="#">Last Login
+                      <a href="#" class="sort " data-sort="last_login" data-order="asc" style="color: black;">
+                        <i class='bx bx-up-arrow-alt me-1 mt-2'></i></a>
+                      <a href="#" class="sort" data-sort="last_login" data-order="desc" style="color: black;">
+                        <i class='bx bx-down-arrow-alt me-4 mt-2'></i></a>
+                    </a>
+                  </div>
+                  <div class="d-flex">
+                    <a class="dropdown-item" href="#">Role
+                      <a href="#" class="sort " data-sort="role" data-order="asc" style="color: black;">
+                        <i class='bx bx-up-arrow-alt me-1 mt-2'></i></a>
+                      <a href="#" class="sort" data-sort="role" data-order="desc" style="color: black;">
+                        <i class='bx bx-down-arrow-alt me-4 mt-2'></i></a>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+      <div id="btn-create-user" class="col d-flex justify-content-end me-3">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn ms-auto text-white me-1" data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop" style="background-color: rgb(0, 180, 204);;" id="create">
+          Create User
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal for creating user-->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Account</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modalBody">
+            {% include 'dean/create_user_form.html' %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Edit User Modal -->
+  <div class="modal fade" id="editUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="editUserModalLabel">Edit User</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="editUserFormContainer">
+            {% include 'dean/edit_user_form.html' %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- archiving user Modal -->
+  <div class="modal fade archive" id="staticbackDrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Archive User Account</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          Are you sure you want to archive the account of "<b><span id="userNamePlaceholder"></span></b>"?
+        </div>
+
+        <div class="modal-footer">
+          <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal" id="closeButton">Cancel</button>
+
+          <a href="#" id="confirmArchiveButton" class="btn btn-primary">Archive</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="content-container me-3"> <!-- Added this div -->
+    <div class="row">
+      <div class="col-12">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Program</th>
+                <th>Role</th>
+                <th>Last Login</th>
+                <th>Modify</th> <!-- New column for Modify actions -->
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users %}
+              {% if user.department == department%}
+              <tr>
+                <td>{{user.first_name}} {{user.last_name}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.department}}</td>
+                <td>{{user.program}}</td>
+                <td>{{user.role}}</td>
+                <td>{{ user.last_login }}</td>
+
+
+                <td>
+                  <div class="d-flex justify-content-start"> <!-- Flexbox for inline buttons -->
+                    <button class="btn btn-warning btn-sm me-2 edit-user-btn" data-bs-toggle="modal"
+                      data-bs-target="#editUserModal" data-user-id="{{ user.id }}">Edit</button>
+
+                    <button class="btn btn-danger btn-sm"
+                      onclick="openArchiveModal('{{user.id}}', '{{user.username}}')">Archive</button>
+                  </div>
+                </td>
+
+              </tr>
+              {% endif %}
+              {% endfor %}
+
+
+
+              <!-- Add more rows as needed -->
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div> <!-- End of content-container -->
+</main>
+
+
+
+
+<!--include jQuery CDN link to use the AJAX functionality-->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+
+<!--Ajax for handling creation of user-->
+<script>
+  document.getElementById("btn-create-user").onclick = function () {
+    fetch("{% url 'create_user' %}").then(response => response.text()).then(html => {
+      document.getElementById('modalBody').innerHTML = html;  //inside the modal
+      document.getElementById("staticBackdrop").style.display = "block";
+    });
+  };
+
+  const modal = document.getElementById("staticBackdrop");
+  document.getElementsByClassName("btn-close")[0].onclick = () => modal.style.display = "none";
+  window.onclick = (event) => {
+    if (event.target == modal)
+      modal.style.display = "none";
+  };
+
+  document.addEventListener("submit", function (event) {
+    if (event.target.id === "userForm") {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      fetch("{% url 'create_user' %}", {
+        method: "POST",
+        body: formData,
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+      }).then(response => response.json()).then(data => {
+        if (data.success) {
+          modal.style.display = "hide";
+          fetchUpdatedUserList();
+          location.reload();
+        }
+        else {
+          document.getElementById("modalBody").innerHTML = data.html_form;
+        }
+      });
+    }
+  });
+</script>
+
+
+<!--ajax for editing user info-->
+<script>
+  $(document).ready(function () {
+    // Handle the edit button click
+    $('.edit-user-btn').on('click', function () {
+      var userId = $(this).data('user-id');
+      $.ajax({
+        url: '{% url "edit_user" 0 %}'.replace('0', userId),
+        type: 'GET',
+        success: function (data) {
+          $('#editUserFormContainer').html(data);
+        },
+        error: function (xhr, errmsg, err) {
+          console.error(xhr.status + ": " + xhr.responseText);
+        }
+      });
+    });
+
+    // Handle form submission via AJAX
+    $('#editUserFormContainer').on('submit', '#editUserForm', function (event) {
+      event.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        success: function (response) {
+          if (response.success) {
+            $('#editUserModal').modal('hide');
+            fetchUpdatedUserList();   //fetch and update the user list
+            location.reload();
+          } else {
+            $('#editUserFormContainer').html(response.form_html);
+          }
+        },
+        error: function (xhr, errmsg, err) {
+          console.error(xhr.status + ": " + xhr.responseText);
+        }
+      });
+    });
+
+
+
+    // Function to fetch updated user list
+    function fetchUpdatedUserList() {
+      $.ajax({
+        url: '{% url "userManagement" %}',
+        type: 'GET',
+        success: function (data) {
+          // Assuming your user list is in a div with id 'userList'
+          $('#userList').html($(data).find('#userList').html());
+        },
+        error: function (xhr, errmsg, err) {
+          console.error(xhr.status + ": " + xhr.responseText);
+        }
+      });
+    }
+  });
+
+</script>
+
+
+<!--script to clear the search input field-->
+<script>
+  function clearSearch() {
+    document.getElementsByName('search')[0].value = '';
+    document.forms[0].submit();
+  }
+</script>
+
+
+
+<!--Scripts for archiving user accounts -->
+<script>
+  function openArchiveModal(user_id, username) {
+    //set the document name in the modal
+    document.getElementById('userNamePlaceholder').innerText = username;
+
+    //set the href attribute of the confirm button to redirect to the approval view
+    const confirmButton = document.getElementById('confirmArchiveButton');
+    confirmButton.href = `/dean/archive-user/${user_id}/`;  //adjust the URL to match your URL pattern
+
+    //show the modal
+    $('.archive').modal('show');
+  }
+</script>
+
+<script>
+  document.querySelectorAll('.sort').forEach(button => {
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
+      const column = this.getAttribute('data-sort');
+      const order = this.getAttribute('data-order');
+      sortTable(column, order);
+    });
+  });
+
+  function sortTable(column, order) {
+    const table = document.querySelector('table tbody');
+    const rows = Array.from(table.querySelectorAll('tr'));
+
+    rows.sort((a, b) => {
+      const colA = a.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim().toLowerCase();
+      const colB = b.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim().toLowerCase();
+
+      if (colA < colB) return order === 'asc' ? -1 : 1;
+      if (colA > colB) return order === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    // Re-append rows in sorted order
+    rows.forEach(row => table.appendChild(row));
+  }
+
+  function getColumnIndex(column) {
+    switch (column) {
+      case 'name': return 1;
+      case 'username': return 2;
+      case 'email': return 3;
+      case 'program': return 5;
+      case 'role': return 6;
+      case 'last_login': return 7;
+      default: return 1;
+    }
+  }
+
+</script>
+
+
+{% endblock %}

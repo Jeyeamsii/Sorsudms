@@ -1,0 +1,295 @@
+{% extends 'faculty/base.html' %}
+
+{% block content %}
+
+{% load static %}
+<main class="col ps-md-2 pt-2 mt-2">
+  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+    class="border rounded-3 p-1 text-decoration-none">
+    <i class="bi bi-list bi-lg py-2 p-1"></i>
+  </a>
+  <div class="page-header pt-3">
+    <h2>My Files</h2>
+  </div>
+  <hr class="me-3">
+
+<div class="btn-group" role="group">
+    <a href="?tab=pending" class="btn btn-outline-primary {% if tab == 'pending' %}active{% endif %}">
+        Pending
+    </a>
+    <a href="?tab=approved" class="btn btn-outline-primary {% if tab == 'approved' %}active{% endif %}">
+        Approved
+    </a>
+    <a href="?tab=declined" class="btn btn-outline-primary {% if tab == 'declined' %}active{% endif %}">
+        Declined
+    </a>
+</div>
+
+<br/>
+<br/>
+
+<!-- Search Form -->
+<form method="GET" action="">
+    <input type="hidden" name="tab" value="{{ tab }}"> <!-- Preserve the current tab -->
+    <div class="row align-items-center">
+        <div class="col-md-8 col-12">
+            <div class="form-group">
+                <input type="text" name="search" class="form-control" placeholder="Search Documents" value="{{ query }}">
+            </div>
+        </div>
+        <div class="col-md-4 col-12 d-flex justify-content-md-end justify-content-start mt-2 mt-md-0">
+            <button type="submit" class="btn btn-primary me-2">Search</button>
+            <button type="button" class="btn btn-secondary" onclick="clearSearch()">Clear</button>
+        </div>
+    </div>
+</form>
+<br/>
+<!-- Documents Table -->
+
+<div class="content-container me-3" style="height: 420px; overflow-y: scroll; border: 1px solid #ccc;">
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12">
+          <table class="table table-bordered table-striped mt-2">
+            <thead>
+              <tr>
+                <th>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span>Academic Year</span>
+                    <span>
+                      <a href="#" class="sort" data-sort="academic_year" data-order="asc">
+                        <i class="bx bx-up-arrow-alt"></i>
+                      </a>
+                      <a href="#" class="sort" data-sort="academic_year" data-order="desc">
+                        <i class="bx bx-down-arrow-alt"></i>
+                      </a>
+                    </span>
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span>Semester</span>
+                    <span>
+                      <a href="#" class="sort" data-sort="semester" data-order="asc">
+                        <i class="bx bx-up-arrow-alt"></i>
+                      </a>
+                      <a href="#" class="sort" data-sort="semester" data-order="desc">
+                        <i class="bx bx-down-arrow-alt"></i>
+                      </a>
+                    </span>
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span>Document Name</span>
+                    <span>
+                      <a href="#" class="sort" data-sort="document_name" data-order="asc">
+                        <i class="bx bx-up-arrow-alt"></i>
+                      </a>
+                      <a href="#" class="sort" data-sort="document_name" data-order="desc">
+                        <i class="bx bx-down-arrow-alt"></i>
+                      </a>
+                    </span>
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span>Document Type</span>
+                    <span>
+                      <a href="#" class="sort" data-sort="document_type" data-order="asc">
+                        <i class="bx bx-up-arrow-alt"></i>
+                      </a>
+                      <a href="#" class="sort" data-sort="document_type" data-order="desc">
+                        <i class="bx bx-down-arrow-alt"></i>
+                      </a>
+                    </span>
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span>Submitted by</span>
+                    <span>
+                      <a href="#" class="sort" data-sort="submitted_by" data-order="asc">
+                        <i class="bx bx-up-arrow-alt"></i>
+                      </a>
+                      <a href="#" class="sort" data-sort="submitted_by" data-order="desc">
+                        <i class="bx bx-down-arrow-alt"></i>
+                      </a>
+                    </span>
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span>Program</span>
+                    <span>
+                      <a href="#" class="sort" data-sort="program" data-order="asc">
+                        <i class="bx bx-up-arrow-alt"></i>
+                      </a>
+                      <a href="#" class="sort" data-sort="program" data-order="desc">
+                        <i class="bx bx-down-arrow-alt"></i>
+                      </a>
+                    </span>
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span>Date Submitted</span>
+                    <span>
+                      <a href="#" class="sort" data-sort="date_submitted" data-order="asc">
+                        <i class="bx bx-up-arrow-alt"></i>
+                      </a>
+                      <a href="#" class="sort" data-sort="date_submitted" data-order="desc">
+                        <i class="bx bx-down-arrow-alt"></i>
+                      </a>
+                    </span>
+                  </div>
+                </th>
+                {% if tab == 'declined' %}
+                <th>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span>Comments</span>
+                    <span>
+                      <a href="#" class="sort" data-sort="comments" data-order="asc">
+                        <i class="bx bx-up-arrow-alt"></i>
+                      </a>
+                      <a href="#" class="sort" data-sort="comments" data-order="desc">
+                        <i class="bx bx-down-arrow-alt"></i>
+                      </a>
+                    </span>
+                  </div>
+                </th>
+                {% endif %}
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for document in documents %}
+              <tr>
+                <td>{{ document.submission_bin.academic_year }}</td>
+                <td>{{ document.submission_bin.semester }}</td>
+                <td>{{ document.document_name }}</td>
+                <td>{{ document.document_type }}</td>
+                <td>{{ document.submitted_by }}</td>
+                <td>{{ document.program }}</td>
+                <td>{{ document.date_submitted }}</td>
+                {% if tab == 'declined' %}
+                <td>{{ document.comment }}</td>
+                {% endif %}
+                <td>
+                  <a href="{% url 'document-viewer' document.id %}" class="btn btn-primary btn-sm" target="_blank">View</a>
+                  {% if tab == 'pending' or tab == 'declined' %}
+                  <button class="btn btn-danger btn-sm mt-1" onclick="openDeleteModal('{{document.id}}')">Delete</button>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- deleting document Modal -->
+        <div class="modal fade delete_document" id="staticbackDrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content" >
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete Document</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+             Are you sure you want to delete this document?
+            </div>
+
+            <div class="modal-footer">
+              <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal" id="closeButton">Cancel</button>
+
+              <a href="#" id="confirmDeleteButton" class="btn btn-primary">Delete</a>
+            </div>
+
+          </div>
+        </div>
+        </div>
+
+
+</main>
+
+
+
+
+<!--Scripts for deleting documents -->
+<script>
+  function openDeleteModal(document_id){
+
+    //set the href attribute of the confirm button to redirect to the approval view
+    const confirmButton = document.getElementById('confirmDeleteButton');
+    confirmButton.href = `/faculty/documents/${document_id}/soft-delete/`;  //adjust the URL to match your URL pattern
+
+    //show the modal
+    $('.delete_document').modal('show');
+  }
+</script>
+
+
+<script>
+    function clearSearch() {
+    const searchInput = document.querySelector('input[name="search"]');
+    searchInput.value = '';
+    searchInput.closest('form').submit();
+}
+
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".sort").forEach(button => {
+    button.addEventListener("click", function (e) {
+      e.preventDefault();
+      const column = this.getAttribute("data-sort");
+      const order = this.getAttribute("data-order");
+      sortTable(column, order);
+    });
+  });
+
+  function sortTable(column, order) {
+    const tableBody = document.querySelector("table tbody");
+    const rows = Array.from(tableBody.querySelectorAll("tr"));
+
+    rows.sort((rowA, rowB) => {
+      const cellA = rowA.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+      const cellB = rowB.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+
+      if (!isNaN(cellA) && !isNaN(cellB)) {
+        return order === "asc" ? cellA - cellB : cellB - cellA;
+      }
+      if (Date.parse(cellA) && Date.parse(cellB)) {
+        return order === "asc" ? new Date(cellA) - new Date(cellB) : new Date(cellB) - new Date(cellA);
+      }
+      return order === "asc" ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+    });
+
+    rows.forEach(row => tableBody.appendChild(row));
+  }
+
+  function getColumnIndex(column) {
+    const columns = [
+      "academic_year",
+      "semester",
+      "document_name",
+      "document_type",
+      "submitted_by",
+      "program",
+      "date_submitted",
+      "comments",
+    ];
+    return columns.indexOf(column) + 1;
+  }
+});
+</script>
+
+{% endblock %}
